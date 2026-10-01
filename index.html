@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Splendid Sneakers</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2ef;--card:#fbfcfb;--ink:#24322d;--mute:#6b7b74;--line:#d9e2dd;--accent:#6f93b5;--accent-ink:#fff;--soft:#dce8e2;--ok:#2e9e6b;--err:#d64545;--shadow:0 6px 24px rgba(36,50,45,.08);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#19211e;--card:#222d29;--ink:#e8efeb;--mute:#9fb0a8;--line:#33413c;--accent:#8fb0d0;--accent-ink:#14201b;--soft:#2b3a35;--shadow:0 6px 24px rgba(0,0,0,.3)}}
+:root[data-theme="dark"]{--bg:#19211e;--card:#222d29;--ink:#e8efeb;--mute:#9fb0a8;--line:#33413c;--accent:#8fb0d0;--accent-ink:#14201b;--soft:#2b3a35;--shadow:0 6px 24px rgba(0,0,0,.3)}
+*,*:before,*:after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Outfit,system-ui,sans-serif;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0;line-height:1.15}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{max-width:980px;margin:auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font:700 21px Fraunces,Georgia,serif;display:flex;gap:8px;align-items:center}
+.cartbtn{position:relative;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 14px;color:var(--ink);display:flex;gap:6px;align-items:center}
+.badge{background:var(--accent);color:var(--accent-ink);border-radius:999px;font-size:12px;min-width:20px;height:20px;display:grid;place-items:center;padding:0 5px;font-weight:600}
+main{max-width:980px;margin:auto;padding:24px 20px}
+.view{display:none}.view.on{display:block}
+.hero{display:grid;gap:24px;align-items:center;grid-template-columns:1.1fr 1fr;background:var(--soft);border-radius:28px;padding:36px}
+.hero h1{font-size:clamp(32px,6vw,52px)}
+.hero p{color:var(--mute);max-width:40ch;margin:14px 0 24px}
+.hero .art{background:var(--card);border-radius:24px;padding:16px;animation:float 6s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px) rotate(-1.5deg)}}
+.btn{border:0;border-radius:14px;padding:13px 24px;font-weight:600;transition:transform .15s,opacity .2s;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px}
+.btn:active{transform:scale(.97)}
+.primary{background:var(--accent);color:var(--accent-ink)}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn[disabled]{opacity:.6;cursor:default}
+.panel{background:var(--card);border-radius:24px;padding:28px;box-shadow:var(--shadow);margin-top:28px}
+.prog{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 20px}
+.prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:99px;transition:width .5s ease}
+.meta{display:flex;justify-content:space-between;color:var(--mute);font-size:14px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:18px 0}
+.opt{background:var(--bg);border:2px solid transparent;border-radius:16px;padding:16px;text-align:left;color:var(--ink);transition:border-color .2s}
+.opt b{display:block}.opt span{color:var(--mute);font-size:14px}
+.opt[aria-pressed=true]{border-color:var(--accent);background:var(--soft)}
+.row{display:flex;gap:12px;justify-content:space-between;align-items:center}
+h2.sec{font-size:26px;margin:32px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.card{background:var(--card);border-radius:22px;padding:14px 14px 18px;box-shadow:var(--shadow)}
+.card .art{background:var(--bg);border-radius:16px;padding:10px}
+.card h3{font-size:19px;margin:14px 4px 2px}
+.card p{margin:0 4px 12px;color:var(--mute);font-size:14px}
+.price{font:700 22px Fraunces,Georgia,serif;background:var(--soft);padding:2px 12px;border-radius:10px}
+.card .row{padding:0 4px}
+.tag{font-size:13px;color:var(--mute)}
+.add{padding:10px 16px;min-height:42px}
+.add.ok{background:var(--ok);color:#fff}
+.spin{width:18px;height:18px;border:3px solid currentColor;border-right-color:transparent;border-radius:50%;animation:rot .7s linear infinite;display:inline-block}
+.spin.big{width:54px;height:54px;border-width:5px;color:var(--accent)}
+@keyframes rot{to{transform:rotate(360deg)}}
+.check{width:20px;height:20px;flex:none}
+.check path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .4s .05s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.circle{width:84px;height:84px;border-radius:50%;background:var(--ok);display:grid;place-items:center;margin:0 auto 16px;animation:pop .4s}
+.circle svg{width:44px;height:44px}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+.item{display:grid;grid-template-columns:90px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.item .art{background:var(--bg);border-radius:12px;padding:4px}
+.qty{display:flex;gap:8px;align-items:center;margin-top:6px}
+.qty button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.total{display:flex;justify-content:space-between;font-size:20px;margin:18px 0}
+.field{margin-bottom:14px;position:relative}
+.field label{display:block;font-size:14px;color:var(--mute);margin-bottom:4px}
+.field input{width:100%;font:inherit;padding:12px 40px 12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+.field.bad input{border-color:var(--err)}
+.field.good input{border-color:var(--ok)}
+.field .check{position:absolute;right:12px;top:37px;display:none}
+.field.good .check{display:block}
+.msg{color:var(--err);font-size:13px;min-height:0;margin-top:4px;display:none}
+.field.bad .msg{display:block}
+.empty{text-align:center;color:var(--mute);padding:30px 0}
+.center{text-align:center}
+.overlay{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 85%,transparent);backdrop-filter:blur(4px);display:none;place-items:center;z-index:40}
+.overlay.on{display:grid}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;gap:4px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px))}
+nav.bottom button{flex:1;max-width:160px;background:none;border:0;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;padding:6px;border-radius:14px}
+nav.bottom button[aria-current=page]{color:var(--ink);background:var(--soft)}
+nav.bottom svg{width:22px;height:22px}
+.prof{display:grid;gap:12px}
+.prof div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+.promo{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--card);border:1px dashed var(--accent);border-radius:16px;padding:10px 16px;margin-bottom:16px;font-size:15px}
+.promo.ok{border:1px solid var(--ok)}
+.promo .btn{min-height:36px;padding:6px 16px}
+.btn.ok{background:var(--ok);color:#fff}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.plan{background:var(--card);border-radius:22px;padding:22px;box-shadow:var(--shadow);border:2px solid transparent;display:flex;flex-direction:column;gap:10px}
+.plan.pop{border-color:var(--accent)}
+.plan ul{list-style:none;padding:0;margin:0 0 8px;color:var(--mute);font-size:15px;flex:1}
+.plan li{display:flex;gap:8px;margin:6px 0;align-items:flex-start}
+.plan li svg{color:var(--ok);width:16px;height:16px;margin-top:4px}
+.pill{align-self:flex-start;background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:600;padding:2px 10px;border-radius:99px}
+.give{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.give div{background:var(--soft);border-radius:20px;padding:20px}
+.give h3{font-size:18px;margin:0 0 6px}.give p{margin:0;color:var(--mute);font-size:15px}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:16px}
+.contact a{display:flex;gap:12px;align-items:center;background:var(--bg);border-radius:16px;padding:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);transition:border-color .2s}
+.contact a:hover{border-color:var(--accent)}
+.contact i{font-style:normal;width:38px;height:38px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none}
+.contact small{display:block;color:var(--mute)}
+.wallets{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 14px}
+.wallet{border:1px solid #000;background:#000;color:#fff;border-radius:12px;min-height:48px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px}
+.wallet.g{background:#fff;color:#3c4043;border-color:#dadce0}
+.or{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:14px;margin:14px 0}
+.or:before,.or:after{content:"";height:1px;background:var(--line);flex:1}
+.ccard{background:linear-gradient(135deg,#6f93b5,#a9c4b6);color:#fff;border-radius:20px;padding:20px;max-width:340px;margin:0 auto 18px;box-shadow:var(--shadow);display:grid;gap:18px}
+.ccard .num{font:500 20px/1 Outfit,monospace;letter-spacing:2px}
+.ccard .r{display:flex;justify-content:space-between;font-size:13px}
+.chip{width:38px;height:28px;border-radius:6px;background:rgba(255,255,255,.55)}
+.sum div{display:flex;justify-content:space-between;color:var(--mute);margin:4px 0}
+.sum .good{color:var(--ok)}
+.tree{display:flex;gap:10px;align-items:center;background:var(--soft);border-radius:14px;padding:12px;margin:14px 0}
+.demo{font-size:13px;color:var(--mute);text-align:center;margin-top:10px}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+footer{max-width:980px;margin:0 auto;padding:0 20px 20px;color:var(--mute);font-size:14px;text-align:center}
+footer a{color:var(--ink)}
+@media(max-width:700px){.hero{grid-template-columns:1fr;padding:24px}.item{grid-template-columns:70px 1fr auto}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+  <div class="logo"><svg width="30" height="20" viewBox="0 0 200 120" aria-hidden="true"><path d="M14 90Q14 78 30 78H176Q190 80 188 92Q186 100 176 100H26Q14 100 14 90Z" fill="#6f93b5"/><path d="M26 80V50Q28 40 40 42L70 52Q84 40 96 34L108 44Q130 62 168 68Q186 72 184 80Z" fill="#a9c4b6"/></svg>Splendid Sneakers</div>
+  <button class="cartbtn" onclick="go('cart')" aria-label="Open cart"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 4h2l2.4 11h10l2-8H6.5"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg><span class="badge" id="count">0</span></button>
+</div></header>
+
+<main>
+<section class="view on" id="v-home">
+  <div class="promo" id="promo"><span><b>Unlock 15% off your first pair.</b> Take the 30-second fit quiz.</span><button class="btn primary" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Take the quiz</button></div>
+  <div class="hero">
+    <div>
+      <h1>Every pair plants a tree.</h1>
+      <p>Lightweight sneakers in calm colors. Find your fit in 30 seconds and take 15% off your first pair.</p>
+      <button class="btn primary" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Get started</button>
+    </div>
+    <div class="art" id="heroArt"></div>
+  </div>
+
+  <div class="panel" id="quiz">
+    <div class="meta"><span id="qstep">Step 1 of 3</span><span id="qpct">33%</span></div>
+    <div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="33" id="qprog"><i style="width:33%"></i></div>
+    <h2 id="qtitle">How will you wear them?</h2>
+    <div class="opts" id="qopts"></div>
+    <div class="row">
+      <button class="btn ghost" id="qback" onclick="qMove(-1)" disabled>Back</button>
+      <button class="btn primary" id="qnext" onclick="qMove(1)">Next</button>
+    </div>
+    <div class="center" id="qdone" style="display:none"></div>
+  </div>
+
+  <h2 class="sec">Fresh pairs</h2>
+  <div class="grid" id="featured"></div>
+
+  <h2 class="sec">Join the Splendid Club</h2>
+  <p class="tag" style="margin:-8px 0 16px;font-size:16px">A fresh pair on repeat, with perks every month. Skip or cancel anytime.</p>
+  <div class="plans" id="plans"></div>
+
+  <h2 class="sec">Good for feet, good for the planet</h2>
+  <div class="give">
+    <div><h3>A tree for every pair</h3><p>Each order helps fund a new tree. Add $1 at checkout to plant one more.</p></div>
+    <div><h3>Recycled materials</h3><p>Soles and laces are made from recycled rubber and bottles, so less goes to landfill.</p></div>
+    <div><h3>Take-back program</h3><p>Send your worn-out pair back. We recycle it or donate it, and you get credit toward the next one.</p></div>
+  </div>
+
+  <div class="panel" id="contact">
+    <h2>Say hello</h2>
+    <p class="tag" style="margin:6px 0 0;font-size:16px">Questions about sizing, orders or the Club? Reach Chris any way you like.</p>
+    <div class="contact">
+      <a href="tel:+12173717433"><i>Call</i><span><small>Phone</small>(217) 371-7433</span></a>
+      <a href="mailto:chrisenglish641@gmail.com"><i>Mail</i><span><small>Email</small>chrisenglish641@gmail.com</span></a>
+      <a href="https://www.instagram.com/chris_.english" target="_blank" rel="noopener"><i>IG</i><span><small>Instagram</small>@chris_.english</span></a>
+      <a href="https://www.snapchat.com/add/chris64123" target="_blank" rel="noopener"><i>Snap</i><span><small>Snapchat</small>chris64123</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="v-shop">
+  <h2 class="sec" style="margin-top:8px" id="shopTitle">All sneakers</h2>
+  <div class="row" style="margin-bottom:16px;justify-content:flex-start;flex-wrap:wrap">
+    <button class="btn ghost" data-f="all" onclick="filter('all')">All</button>
+    <button class="btn ghost" data-f="Everyday" onclick="filter('Everyday')">Everyday</button>
+    <button class="btn ghost" data-f="Running" onclick="filter('Running')">Running</button>
+    <button class="btn ghost" data-f="Lounge" onclick="filter('Lounge')">Lounge</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="view" id="v-cart">
+  <div class="panel" style="margin-top:8px" id="cartPanel">
+    <div class="meta"><span id="cstep">Step 1 of 3 · Review</span><span id="cpct">33%</span></div>
+    <div class="prog" id="cprog"><i style="width:33%"></i></div>
+    <div id="cartBody"></div>
+  </div>
+</section>
+
+<section class="view" id="v-me">
+  <div class="panel" style="margin-top:8px">
+    <h2>Your profile</h2>
+    <div class="prof" style="margin-top:16px">
+      <div><span>Fit</span><b id="pFit">Not set yet</b></div>
+      <div><span>Favorite color</span><b id="pCol">Not set yet</b></div>
+      <div><span>Size</span><b id="pSize">Not set yet</b></div>
+    </div>
+    <p class="tag">Finish the fit quiz on Home to fill this in.</p>
+  </div>
+</section>
+</main>
+
+<footer>Splendid Sneakers is a demo store, so prices and payments are for show.<br><a href="tel:+12173717433">(217) 371-7433</a> &nbsp; <a href="mailto:chrisenglish641@gmail.com">Email</a> &nbsp; <a href="https://www.instagram.com/chris_.english" target="_blank" rel="noopener">Instagram</a> &nbsp; <a href="https://www.snapchat.com/add/chris64123" target="_blank" rel="noopener">Snapchat</a></footer>
+<div class="overlay" id="ov"><div class="center"><span class="spin big"></span><p>Just a moment…</p></div></div>
+
+<nav class="bottom" aria-label="Main">
+  <button data-v="home" onclick="go('home')" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/></svg>Home</button>
+  <button data-v="shop" onclick="go('shop')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Shop</button>
+  <button data-v="cart" onclick="go('cart')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 4h2l2.4 11h10l2-8H6.5"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>Cart</button>
+  <button data-v="me" onclick="go('me')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profile</button>
+</nav>
+
+<script>
+const CHK='<svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const shoe=(a,b,c)=>`<svg viewBox="0 0 200 120" style="width:100%;display:block" role="img" aria-label="Sneaker illustration"><ellipse cx="102" cy="108" rx="84" ry="6" fill="#000" opacity=".08"/><path d="M14 90Q14 78 30 78H176Q190 80 188 92Q186 100 176 100H26Q14 100 14 90Z" fill="#fff" stroke="#d9e2dd" stroke-width="2"/><path d="M26 80V50Q28 40 40 42L70 52Q84 40 96 34L108 44Q130 62 168 68Q186 72 184 80Z" fill="${a}"/><path d="M142 67Q172 70 184 80H150Z" fill="${b}"/><path d="M44 78Q70 58 104 62Q124 66 140 78Z" fill="${c}" opacity=".9"/><path d="M88 46l12 7M96 40l12 7M104 37l10 7" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M26 54Q34 52 38 60V78H26Z" fill="${b}"/></svg>`;
+const P=[
+{id:1,n:"Sage Drift",t:"Everyday",c:"Sage",p:89,a:"#a9c4b6",b:"#6f93b5",d:"#e8efe6"},
+{id:2,n:"Sky Loop",t:"Running",c:"Sky",p:112,a:"#8fb0d0",b:"#dce8e2",d:"#3f5d7a"},
+{id:3,n:"Oat Cloud",t:"Lounge",c:"Sand",p:74,a:"#e6dcc9",b:"#a9c4b6",d:"#f4efe4"},
+{id:4,n:"Mist Runner",t:"Running",c:"Sky",p:128,a:"#c5d6e6",b:"#5f86a8",d:"#ffffff"},
+{id:5,n:"Fern Low",t:"Everyday",c:"Sage",p:96,a:"#7fa48f",b:"#e6dcc9",d:"#d3e3d9"},
+{id:6,n:"Dune Slip",t:"Lounge",c:"Sand",p:68,a:"#d9c7a8",b:"#8fb0d0",d:"#efe6d3"}];
+let cart={},view='home',sel={fit:null,col:null,size:null},qi=0,fil='all',rec=null;
+const money=n=>'$'+(Number.isInteger(n)?n:n.toFixed(2));
+const cnt=()=>Object.values(cart).reduce((a,b)=>a+b,0)+(sub?1:0);
+let sub=null,tree=false,unlocked=false;
+const $=id=>document.getElementById(id);
+$('heroArt').innerHTML=shoe('#a9c4b6','#6f93b5','#e8efe6');
+
+function card(p){return `<article class="card"><div class="art">${shoe(p.a,p.b,p.d)}</div><h3>${p.n}</h3><p>${p.t} · ${p.c}</p><div class="row"><span class="price" aria-label="Price ${p.p} dollars">${money(p.p)}</span><button class="btn primary add" data-id="${p.id}" onclick="add(${p.id},this)">Add to cart</button></div></article>`}
+function render(){
+  $('featured').innerHTML=(rec||P).slice(0,3).map(card).join('');
+  const L=P.filter(p=>fil==='all'||p.t===fil);
+  $('grid').innerHTML=L.map(card).join('');
+  document.querySelectorAll('[data-f]').forEach(b=>{b.className='btn '+(b.dataset.f===fil?'primary':'ghost')});
+  $('count').textContent=cnt();
+}
+function filter(f){fil=f;render()}
+function add(id,btn){
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span> Adding';
+  setTimeout(()=>{cart[id]=(cart[id]||0)+1;btn.classList.add('ok');btn.innerHTML=CHK+' Added';render2();
+    setTimeout(()=>{btn.disabled=false;btn.classList.remove('ok');btn.textContent='Add to cart'},1200)},800)}
+function render2(){$('count').textContent=cnt()}
+
+const Q=[
+{t:"How will you wear them?",k:"fit",o:[["Everyday","Errands and coffee"],["Running","Light and bouncy"],["Lounge","Slip-on comfort"]]},
+{t:"Pick a calm color",k:"col",o:[["Sage","Soft green"],["Sky","Dusty blue"],["Sand","Warm oat"]]},
+{t:"What's your size?",k:"size",o:[["7","US"],["8","US"],["9","US"],["10","US"],["11","US"]]}];
+function qRender(){
+  const q=Q[qi],pct=Math.round((qi+1)/3*100);
+  $('qstep').textContent=`Step ${qi+1} of 3`;$('qpct').textContent=pct+'%';
+  $('qprog').firstElementChild.style.width=pct+'%';$('qprog').setAttribute('aria-valuenow',pct);
+  $('qtitle').textContent=q.t;
+  $('qopts').innerHTML=q.o.map(o=>`<button class="opt" aria-pressed="${sel[q.k]===o[0]}" onclick="pick('${q.k}','${o[0]}')"><b>${o[0]}</b><span>${o[1]}</span></button>`).join('');
+  $('qback').disabled=qi===0;$('qnext').textContent=qi===2?'See my picks':'Next';
+}
+function pick(k,v){sel[k]=v;qRender()}
+function qMove(d){
+  const q=Q[qi];
+  if(d>0&&!sel[q.k]){$('qopts').querySelectorAll('.opt').forEach(b=>b.style.borderColor='var(--err)');return}
+  if(d>0&&qi===2){finishQuiz();return}
+  qi+=d;qRender()}
+function finishQuiz(){
+  $('qnext').disabled=true;$('qnext').innerHTML='<span class="spin"></span> Finding pairs';
+  setTimeout(()=>{
+    rec=P.filter(p=>p.t===sel.fit||p.c===sel.col).sort((a,b)=>(b.t===sel.fit)+(b.c===sel.col)-((a.t===sel.fit)+(a.c===sel.col)));
+    unlocked=true;setPromo();$('pFit').textContent=sel.fit;$('pCol').textContent=sel.col;$('pSize').textContent='US '+sel.size;
+    $('qopts').style.display='none';$('qtitle').textContent="Your picks are ready";
+    $('qprog').firstElementChild.style.width='100%';$('qpct').textContent='100%';$('qstep').textContent='Done';
+    document.querySelector('#quiz .row').style.display='none';
+    $('qdone').style.display='block';
+    $('qdone').innerHTML=`<div class="circle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" class="ck"/></svg></div><p>Size US ${sel.size} · ${sel.fit} · ${sel.col}. Your best matches moved to Fresh pairs, and 15% off is unlocked. It applies at checkout.</p><button class="btn primary" onclick="document.querySelector('.sec').scrollIntoView({behavior:'smooth'})">View picks</button>`;
+    document.querySelector('#qdone path').style.cssText='stroke-dasharray:30;animation:draw .5s forwards;stroke-dashoffset:30';
+    render();
+  },1400)}
+
+let step=0,errs={};
+function cartView(){
+  const ids=Object.keys(cart).filter(i=>cart[i]>0);
+  const pct=[33,66,100][step];
+  $('cstep').textContent=['Step 1 of 3 · Review','Step 2 of 3 · Your details','Step 3 of 3 · Done'][step];
+  $('cpct').textContent=pct+'%';$('cprog').firstElementChild.style.width=pct+'%';
+  const b=$('cartBody');
+  if(step===2){b.innerHTML=`<div class="center" style="padding:24px 0"><div class="circle"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" style="stroke-dasharray:30;stroke-dashoffset:30;animation:draw .5s .2s forwards"/></svg></div><h2>Order placed</h2><p class="tag" style="font-size:16px">Thanks! A confirmation is on its way to your email.</p><button class="btn primary" onclick="step=0;go('shop')">Keep shopping</button></div>`;return}
+  if(!ids.length&&!sub){b.innerHTML=`<div class="empty"><p>Your cart is empty.</p><button class="btn primary" onclick="go('shop')">Browse sneakers</button></div>`;return}
+  const C=calc();
+  if(step===0){
+    b.innerHTML=ids.map(i=>{const p=P[i-1];return `<div class="item"><div class="art">${shoe(p.a,p.b,p.d)}</div><div><b>${p.n}</b><div class="tag">${p.t} · ${p.c}</div><div class="qty"><button aria-label="Fewer" onclick="q(${i},-1)">−</button><span>${cart[i]}</span><button aria-label="More" onclick="q(${i},1)">+</button></div></div><span class="price">${money(p.p*cart[i])}</span></div>`}).join('')+subLine()+`<div class="sum" style="margin:16px 0">${sumRows(C)}</div><button class="btn primary" style="width:100%" onclick="step=1;cartView()">Next</button>`;
+  }else{
+    const f=(k,l,t,ph,on='')=>`<div class="field ${errs[k]?'bad':''}" id="f-${k}"><label for="i-${k}">${l}</label><input id="i-${k}" type="${t}" placeholder="${ph}" ${on} value="${(window.vals||{})[k]||''}">${CHK}<div class="msg">${errs[k]||''}</div></div>`;
+    b.innerHTML=f('name','Full name','text','Alex Morgan')+f('email','Email','email','alex@example.com')+f('zip','ZIP code','text','61554')+payHtml(C,f);
+  }}
+function q(i,d){cart[i]=Math.max(0,(cart[i]||0)+d);render2();cartView()}
+function order(w){if(w){$('ov').classList.add('on');finish();return}
+  const v={name:$('i-name').value.trim(),email:$('i-email').value.trim(),zip:$('i-zip').value.trim(),cn:$('i-cn').value,cname:$('i-cname').value.trim(),exp:$('i-exp').value,cvc:$('i-cvc').value};window.vals=v;
+  errs={};
+  if(v.name.length<2)errs.name='Enter your full name.';
+  if(!/^\S+@\S+\.\S+$/.test(v.email))errs.email='Enter an email like name@example.com.';
+  if(!/^\d{5}$/.test(v.zip))errs.zip='ZIP code must be 5 digits.';
+  if(v.cn.replace(/\D/g,'').length<15)errs.cn='Enter your 15 or 16 digit card number.';
+  if(v.cname.length<2)errs.cname='Enter the name on your card.';
+  const m=/^(\d\d)\/(\d\d)$/.exec(v.exp),nw=new Date();
+  if(!m||+m[1]<1||+m[1]>12||(2000+ +m[2])*12+ +m[1]<nw.getFullYear()*12+nw.getMonth()+1)errs.exp='Use a future date as MM/YY.';
+  if(!/^\d{3,4}$/.test(v.cvc))errs.cvc='Enter the 3 or 4 digit code.';
+  ['name','email','zip','cn','cname','exp','cvc'].forEach(k=>{const f=$('f-'+k);f.classList.toggle('bad',!!errs[k]);f.classList.toggle('good',!errs[k]);f.querySelector('.msg').textContent=errs[k]||''});
+  if(Object.keys(errs).length)return;
+  $('ov').classList.add('on');
+  finish()}
+function finish(){setTimeout(()=>{$('ov').classList.remove('on');cart={};sub=null;tree=false;window.vals={};render();step=2;cartView()},1500)}
+
+function go(v){
+  view=v;document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));
+  document.querySelectorAll('nav.bottom button').forEach(b=>b.toggleAttribute('aria-current',b.dataset.v===v)||0);
+  document.querySelectorAll('nav.bottom button').forEach(b=>{if(b.dataset.v===v)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+  if(v==='cart'){if(step===2&&(Object.keys(cart).length||sub))step=0;cartView()}
+  window.scrollTo({top:0})}
+
+const S=[
+{id:'sprout',n:'Sprout',p:19,li:['10% off every pair','Free shipping','Early access to new drops']},
+{id:'stride',n:'Stride',p:39,pop:1,li:['A new pair every 3 months','15% off extra pairs','Free returns','Two trees planted monthly']},
+{id:'bloom',n:'Bloom',p:59,li:['A new pair every 2 months','Free recycling pickup','Members-only colors','Four trees planted monthly']}];
+$('plans').innerHTML=S.map(x=>`<div class="plan ${x.pop?'pop':''}">${x.pop?'<span class="pill">Most popular</span>':''}<h3>${x.n}</h3><div><span class="price">${money(x.p)}</span> <span class="tag">per month</span></div><ul>${x.li.map(l=>'<li>'+CHK+l+'</li>').join('')}</ul><button class="btn ${x.pop?'primary':'ghost'}" onclick="subscribe('${x.id}',this)">Subscribe</button></div>`).join('');
+function subscribe(id,b){b.disabled=true;b.innerHTML='<span class="spin"></span> Joining';setTimeout(()=>{sub=S.find(x=>x.id===id);render2();b.classList.add('ok');b.innerHTML=CHK+' In your cart';setTimeout(()=>{b.disabled=false;b.classList.remove('ok');b.textContent='Subscribe'},1400)},800)}
+function setPromo(){const e=$('promo');if(unlocked){e.className='promo ok';e.innerHTML='<span style="display:flex;gap:8px;align-items:center;color:var(--ok)">'+CHK+'<b style="color:var(--ink)">15% off unlocked.</b> <span style="color:var(--mute)">Applied at checkout.</span></span>'}}
+function calc(){const s=Object.keys(cart).reduce((a,i)=>a+P[i-1].p*cart[i],0);const disc=unlocked?Math.round(s*15)/100:0;return{s,disc,total:s-disc+(sub?sub.p:0)+(tree?1:0)}}
+function sumRows(C){return `<div><span>Sneakers</span><span>${money(C.s)}</span></div>`+(C.disc?`<div class="good"><span>Quiz discount (15%)</span><span>-${money(C.disc)}</span></div>`:'')+(sub?`<div><span>${sub.n} Club, first month</span><span>${money(sub.p)}</span></div>`:'')+(tree?`<div><span>Tree planting</span><span>${money(1)}</span></div>`:'')+`<div style="color:var(--ink);font:700 20px Fraunces,Georgia,serif;margin-top:8px"><span>Total</span><span>${money(C.total)}</span></div>`}
+function subLine(){return sub?`<div class="item"><div class="art" style="display:grid;place-items:center;height:56px;color:var(--ok)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-9 5-14 14-14 0 9-5 14-14 14zM5 19l7-7"/></svg></div><div><b>${sub.n} Club</b><div class="tag">Billed monthly, cancel anytime</div><div class="qty"><button style="width:auto;padding:0 12px;border-radius:15px" onclick="sub=null;render2();cartView()">Remove</button></div></div><span class="price">${money(sub.p)}/mo</span></div>`:''}
+const brand=n=>{const d=(n||'').replace(/\D/g,'');return d[0]==='4'?'VISA':/^(5[1-5]|2)/.test(d)?'MASTERCARD':/^3[47]/.test(d)?'AMEX':'CARD'};
+function keepVals(){const v=window.vals||{};['name','email','zip','cn','cname','exp','cvc'].forEach(k=>{const e=$('i-'+k);if(e)v[k]=e.value});window.vals=v}
+function fmt(el,t){const d=el.value.replace(/\D/g,'');if(t===1)el.value=d.slice(0,16).replace(/(.{4})/g,'$1 ').trim();else if(t===2)el.value=d.length>2?d.slice(0,2)+'/'+d.slice(2,4):d;else el.value=d.slice(0,4);cc()}
+function cc(){const g=k=>$('i-'+k)?$('i-'+k).value:'';$('cnum').textContent=g('cn')||'•••• •••• •••• ••••';$('cbrand').textContent=brand(g('cn'));$('cname2').textContent=(g('cname')||'YOUR NAME').toUpperCase();$('cexp2').textContent=g('exp')||'MM/YY'}
+function payHtml(C,f){const v=window.vals||{};return `<div class="sum" style="margin-top:6px">${sumRows(C)}</div>
+<label class="tree"><input type="checkbox" ${tree?'checked':''} onchange="keepVals();tree=this.checked;cartView()"><span><b>Plant a tree for $1</b><br><small class="tag">We fund one extra tree with your order.</small></span></label>
+<h3 style="font-size:20px;margin:18px 0 10px">Pay</h3>
+<div class="wallets"><button class="wallet" onclick="order(1)">Apple Pay</button><button class="wallet g" onclick="order(1)"><b style="color:#4285f4">G</b> Pay</button></div>
+<div class="or">or pay with card</div>
+<div class="ccard"><div class="r"><div class="chip"></div><b id="cbrand">${brand(v.cn)}</b></div><div class="num" id="cnum">${v.cn||'•••• •••• •••• ••••'}</div><div class="r"><span id="cname2">${(v.cname||'YOUR NAME').toUpperCase()}</span><span id="cexp2">${v.exp||'MM/YY'}</span></div></div>
+${f('cn','Card number','text','1234 5678 9012 3456','inputmode="numeric" maxlength="19" autocomplete="off" oninput="fmt(this,1)"')}
+${f('cname','Name on card','text','Alex Morgan','oninput="cc()"')}
+<div class="cols2">${f('exp','Expiry','text','MM/YY','inputmode="numeric" maxlength="5" oninput="fmt(this,2)"')}${f('cvc','CVC','text','123','inputmode="numeric" maxlength="4" oninput="fmt(this,3)"')}</div>
+<div class="row"><button class="btn ghost" onclick="keepVals();step=0;cartView()">Back</button><button class="btn primary" style="flex:1" onclick="order()">Pay ${money(C.total)}</button></div>
+<p class="demo">Demo checkout. No real payment is taken.</p>`}
+render();qRender();
+</script>
+</body>
+</html>
